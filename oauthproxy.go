@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/tls"
 	b64 "encoding/base64"
 	"errors"
 	"fmt"
@@ -125,33 +124,17 @@ func NewFileServer(path string, filesystemPath string) (proxy http.Handler) {
 
 func NewWebSocketOrRestReverseProxy(u *url.URL, opts *Options, auth hmacauth.HmacAuth) (restProxy http.Handler) {
 	u.Path = ""
-	proxy, err := NewReverseProxy(u, opts.UpstreamFlush, opts.UpstreamCAs)
-	if err != nil {
-		log.Fatal("Failed to initialize Reverse Proxy: ", err)
-	}
+	proxy := NewReverseProxy(u)
 	if !opts.PassHostHeader {
 		setProxyUpstreamHostHeader(proxy, u)
 	} else {
 		setProxyDirector(proxy)
 	}
-
-	// this should give us a wss:// scheme if the url is https:// based.
 	var wsProxy *wsutil.ReverseProxy = nil
 	if opts.ProxyWebSockets {
 		wsScheme := "ws" + strings.TrimPrefix(u.Scheme, "http")
 		wsURL := &url.URL{Scheme: wsScheme, Host: u.Host}
 		wsProxy = wsutil.NewSingleHostReverseProxy(wsURL)
-
-		if wsScheme == "wss" && len(opts.UpstreamCAs) > 0 {
-			pool, err := util.GetCertPool(opts.UpstreamCAs, false)
-			if err != nil {
-				log.Fatal("Failed to fetch CertPool: ", err)
-			}
-			wsProxy.TLSClientConfig = &tls.Config{
-				RootCAs: pool,
-			}
-		}
-
 	}
 	return &UpstreamProxy{u.Host, proxy, wsProxy, auth}
 }
