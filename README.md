@@ -13,9 +13,25 @@ to validate accounts by email, domain or group.
 
 ![OAuth2 Proxy Architecture](https://cloud.githubusercontent.com/assets/45028/8027702/bd040b7a-0d6a-11e5-85b9-f8d953d04f39.png)
 
+## Compile
+
+To compile `oauth2_proxy` as go application do the following
+
+1. Setup `envrc` file for `direnv`. Use [.envrc.example](.envrc.example) as an example
+2. Setup Golang (tested with: `go1.10.3`)
+3. Run `make clean install dep compile`
+
+## Make a container
+
+We run milti-stage build for `oauth2_proxy`. It is part of make file. By default we use following repo: `docker.io/agilestacks/oauth2_proxy` that however can be customized: `REGISTRY`, `IMAGE`, `IMAGE_VERSION`  variable for make file.
+
+To make and push the container run following command:
+
+`make build push`
+
 ## Installation
 
-1. Download [Prebuilt Binary](https://github.com/bitly/oauth2_proxy/releases) (current release is `v2.2`) or build with `$ go get github.com/bitly/oauth2_proxy` which will put the binary in `$GOROOT/bin`
+1. Download [Prebuilt Binary](https://github.com/agilestacks/oauth2_proxy/releases) (current release is `v2.2`) or build with `$ go get github.com/bitly/oauth2_proxy` which will put the binary in `$GOROOT/bin`
 Prebuilt binaries can be validated by extracting the file and verifying it against the `sha256sum.txt` checksum file provided for each release starting with version `v2.3`.
 ```
 sha256sum -c sha256sum.txt 2>&1 | grep OK
