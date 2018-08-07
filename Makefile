@@ -6,7 +6,7 @@ export GOBIN             ?= $(GOPATH)/bin/$(GOOS)
 export PATH              ?= $(GOBIN):$(PATH)
 export GOAPP             ?= oauth2_proxy
 export IMAGE              	?= docker.io/agilestacks/$(GOAPP)
-export IMAGE_VERSION      	?= 2.3
+export IMAGE_VERSION      	?= v2.3
 
 DOCKER_BUILD_OTPS := --no-cache  --force-rm "
 
