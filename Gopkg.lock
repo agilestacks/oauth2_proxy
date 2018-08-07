@@ -78,6 +78,12 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/yhat/wsutil"
+  packages = ["."]
+  revision = "1d66fa95c997864ba4d8479f56609620fe542928"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/crypto"
   packages = [
     "bcrypt",
@@ -92,7 +98,8 @@
   name = "golang.org/x/net"
   packages = [
     "context",
-    "context/ctxhttp"
+    "context/ctxhttp",
+    "websocket"
   ]
   revision = "9dfe39835686865bff950a07b394c12a98ddc811"
 
@@ -155,6 +162,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "01259a48fd76d9569b3f1b1c102de91b2abef8af83caa676ac88f03c0a05bb0b"
+  inputs-digest = "234b83ee1892f4b388095bd4e63336a0938a5fb684616b59daaf01f6059aca53"
   solver-name = "gps-cdcl"
   solver-version = 1
