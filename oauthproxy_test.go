@@ -66,10 +66,10 @@ func TestWebSocketProxy(t *testing.T) {
 
 	backendURL, _ := url.Parse(backend.URL)
 
-	var options Options
+	options := NewOptions()
 	var auth hmacauth.HmacAuth
 	options.PassHostHeader = true
-	proxyHandler := NewWebSocketOrRestReverseProxy(backendURL, &options, auth)
+	proxyHandler := NewWebSocketOrRestReverseProxy(backendURL, options, auth)
 	frontend := httptest.NewServer(proxyHandler)
 	defer frontend.Close()
 
