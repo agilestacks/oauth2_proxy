@@ -22,7 +22,7 @@ install:
 	go get -u golang.org/x/tools/cmd/guru
 	go get -u golang.org/x/tools/cmd/godoc
 
-compile:
+compile: download
 	$(GOBIN)/gox -rebuild -verbose \
 		-ldflags='-extldflags "-static"' \
 		-osarch="darwin/amd64 linux/amd64" \
@@ -31,6 +31,9 @@ compile:
 
 vendor:
 	go mod vendor
+
+download:
+	go mod download
 
 get:
 	go get $(GOAPP)
