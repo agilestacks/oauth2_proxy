@@ -14,7 +14,6 @@ deploy: build push
 
 install:
 	go get -u github.com/mitchellh/gox
-	go get -u github.com/golang/dep/cmd/dep
 	go get -u github.com/nsf/gocode
 	go get -u golang.org/x/tools/cmd/guru
 	go get -u golang.org/x/tools/cmd/goimports
@@ -23,18 +22,15 @@ install:
 	go get -u golang.org/x/tools/cmd/guru
 	go get -u golang.org/x/tools/cmd/godoc
 
-dep:
-	@echo dep ensure
-	$(GOBIN)/dep ensure -v
-	$(GOBIN)/dep status
-.PHONY: dep
-
 compile:
-	$(GOBIN)/gox -rebuild \
+	$(GOBIN)/gox -rebuild -verbose \
 		-ldflags='-extldflags "-static"' \
 		-osarch="darwin/amd64 linux/amd64" \
 		-output=$(GOPATH)/bin/{{.OS}}/{{.Dir}} \
-		$(GOAPP)/...
+		.
+
+vendor:
+	go mod vendor
 
 get:
 	go get $(GOAPP)
@@ -47,7 +43,7 @@ clean:
 	@yes n | rm -rf dist | true
 	@yes n | rm -rf vendor | true
 
-build:
+build: vendor
 	docker build $(DOCKER_BUILD_OPTS) \
 		-t $(IMAGE):$(IMAGE_VERSION) \
 		-t $(IMAGE):latest .

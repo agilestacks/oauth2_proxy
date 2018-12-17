@@ -1,4 +1,4 @@
-FROM golang:1.10.3-alpine as gobuilder
+FROM golang:1.11.3-alpine as gobuilder
 ARG  GOAPP=oauth2_proxy
 ENV  CGO_ENABLED=0 
 ENV  GOOS=linux
